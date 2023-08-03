@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
     const client = new MongoClient('mongodb+srv://tsanta:ETU001146@cluster0.6oftdrm.mongodb.net/?retryWrites=true&w=majority', { useUnifiedTopology: true });
     await client.connect();
 
-    const db = client.db("Tourisme");
+    const db = client.db("Garage");
 
     let user = await db.collection("client").findOne({ email: email });
 
@@ -144,7 +144,7 @@ router.post('/register', async (req, res) => {
         
     const client = new MongoClient('mongodb+srv://tsanta:ETU001146@cluster0.6oftdrm.mongodb.net/?retryWrites=true&w=majority', { useUnifiedTopology: true });
     await client.connect();
-    const db = client.db("Tourisme");
+    const db = client.db("Garage");
 
     const emailExists = await db.collection("client").findOne({ email: email });
 
@@ -169,7 +169,7 @@ router.post('/register', async (req, res) => {
 
     const token = jwt.sign({ id: insertedId }, "Tsanta", { expiresIn: 86400 });
 
-    const verificationLink = `https://Tourisme-backend-sigma.vercel.app/users/verify?token=${token}`;
+    const verificationLink = `https://garage-backend-sigma.vercel.app/users/verify?token=${token}`;
     
 
     const transporter = nodemailer.createTransport({
@@ -203,7 +203,7 @@ router.post('/register', async (req, res) => {
 router.put('/update', auth, async (req, res) => {
     const client = new MongoClient('mongodb+srv://tsanta:ETU001146@cluster0.6oftdrm.mongodb.net/?retryWrites=true&w=majority',{ useUnifiedTopology: true });
     await client.connect();
-    const db = client.db("Tourisme");
+    const db = client.db("Garage");
     let user = await db.collection("client").findOne({_id: new ObjectId(req.user.id)});
     let collectionName = 'client';
     if (!user)
@@ -242,7 +242,7 @@ router.get('/verify', async (req, res) => {
     try {
         const client = new MongoClient('mongodb+srv://tsanta:ETU001146@cluster0.6oftdrm.mongodb.net/?retryWrites=true&w=majority',{ useUnifiedTopology: true });
         await client.connect();
-        const db = client.db("Tourisme");
+        const db = client.db("Garage");
         const decoded = jwt.verify(token, 'Tsanta');
         console.log(decoded);
         const user = await db.collection("client").findOne({ _id: new ObjectId(decoded.id) });
@@ -258,4 +258,5 @@ router.get('/verify', async (req, res) => {
 
 
 module.exports = router;
+
 
