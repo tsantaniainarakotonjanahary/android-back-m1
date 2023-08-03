@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-//const auth = require('../routes/users'); 
 
-router.get('/', function(req, res, next) { res.send('INDEX'); });
+router.get('/hello', function(req, res, next) { res.send('Tongasoa eto @ api '); });
 
 module.exports = router;
