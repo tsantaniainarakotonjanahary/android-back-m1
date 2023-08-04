@@ -59,7 +59,6 @@ router.post('/register', async (req, res) => {
         prenom: prenom,
         email: email,
         password: hash,
-        profil: profil,
     };
 
     const { insertedId } = await db.collection("users").insertOne(newUser);
