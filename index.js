@@ -4,7 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var voitureRouter = require('./routes/voiture');
+var siteRouter = require('./routes/sites');
 const cors = require('cors');
 var app = express();
 require('dotenv').config();
@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/voiture', voitureRouter);
+app.use('/sites', siteRouter);
 
 app.use(function(req, res, next) { next(createError(404)); });
 
