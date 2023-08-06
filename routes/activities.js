@@ -112,7 +112,7 @@ router.delete('/:id', auth, async (req, res) => {
 
 router.put('/:id/vote', auth, async (req, res) => {
     const { id } = req.params; // Activity ID
-    const userId = req.user._id; // User ID from decoded JWT
+    const userId = req.user.id; // User ID from decoded JWT
     const { vote } = req.body; // The vote value
     
     if (vote === undefined) {
