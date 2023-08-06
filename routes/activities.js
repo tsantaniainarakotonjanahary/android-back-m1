@@ -67,6 +67,7 @@ router.get('/', auth, async (req, res) => {
     activities.forEach(activity => {
         const totalEtoiles = activity.etoiles.reduce((acc, current) => acc + parseInt(current[1].$numberInt), 0);
         activity.averageEtoiles = activity.etoiles.length ? totalEtoiles / activity.etoiles.length : 0;
+        activity.voteCount = activity.etoiles.length;
     });
 
     res.status(200).json(activities);
@@ -84,10 +85,15 @@ router.get('/:id', auth, async (req, res) => {
     const activity = await db.collection("activities").findOne({ _id: new ObjectId(id) });
     if (!activity) return res.status(404).json({ message: "Activity not found" });
 
+    const totalEtoiles = activity.etoiles.reduce((acc, current) => acc + parseInt(current[1].$numberInt), 0);
+    activity.averageEtoiles = activity.etoiles.length ? totalEtoiles / activity.etoiles.length : 0;
+    activity.voteCount = activity.etoiles.length;
+
     res.status(200).json(activity);
 
     client.close();
 });
+
 
 router.delete('/:id', auth, async (req, res) => {
     const { id } = req.params;
