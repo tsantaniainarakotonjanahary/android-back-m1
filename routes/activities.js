@@ -109,4 +109,41 @@ router.delete('/:id', auth, async (req, res) => {
     client.close();
 });
 
+
+router.put('/:id/vote', auth, async (req, res) => {
+    const { id } = req.params; // Activity ID
+    const userId = req.user._id; // User ID from decoded JWT
+    const { vote } = req.body; // The vote value
+    
+    if (vote === undefined) {
+        return res.status(400).json({ message: "Please provide a vote" });
+    }
+
+    const client = new MongoClient(CONNECTION_STRING, { useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db("Tourism");
+
+    const activity = await db.collection("activities").findOne({ _id: new ObjectId(id) });
+
+    if (!activity) return res.status(404).json({ message: "Activity not found" });
+
+    const existingVoteIndex = activity.etoiles.findIndex(e => e[0] === userId);
+
+    if (existingVoteIndex > -1) {
+        activity.etoiles[existingVoteIndex][1].$numberInt = String(vote);
+    } else {
+        activity.etoiles.push([userId, {"$numberInt": String(vote)}]);
+    }
+
+    await db.collection("activities").updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { etoiles: activity.etoiles } }
+    );
+
+    res.status(200).json({ message: "Vote updated successfully" });
+
+    client.close();
+});
+
+
 module.exports = router;
