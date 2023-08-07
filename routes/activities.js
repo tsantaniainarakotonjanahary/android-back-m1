@@ -56,6 +56,7 @@ router.post('/', auth, async (req, res) => {
           title: 'Rappel',
           body: `Nouvel activite a visiter ajouté`
         },
+        topic: "allUsers"
       };
     
       admin.messaging().send(message).then(async (response) => {
