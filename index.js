@@ -13,7 +13,6 @@ const fileUpload = require('express-fileupload');
 
 app.use(cors());
 
-// Use the middleware
 app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: '/tmp/'
