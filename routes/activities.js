@@ -58,12 +58,12 @@ router.post('/', auth, async (req, res) => {
         },
       };
     
-     /* admin.messaging().send(message).then(async (response) => {
+      admin.messaging().send(message).then(async (response) => {
          console.log('Successfully sent message:', response);
         
      }).catch((error) => {
         console.log('Error sending message:', error);
-      }); */
+      }); 
 
     client.close();
 });
